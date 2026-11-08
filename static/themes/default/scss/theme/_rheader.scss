@@ -1,0 +1,225 @@
+// ============================================================================
+// Styles for Resource Headers
+// ============================================================================
+// VARIABLES
+
+// Foundation variables used:
+//$button-bg-color
+//$button-bg-hover
+
+// Active tab
+$rheader_tabs_bgcolor_active: $body-background !default;
+$rheader_tabs_bgcolor_active_hover: #f1edec !default;
+$rheader_tabs_fgcolor_active: #666666 !default;
+$rheader_tabs_fgcolor_active_hover: #666666 !default;
+
+// Inactive tabs
+$rheader_tabs_bgcolor_inactive: $button-background !default;
+$rheader_tabs_bgcolor_inactive_hover: $button-background-hover !default;
+$rheader_tabs_fgcolor_inactive: #ffffff !default;
+$rheader_tabs_fgcolor_inactive_hover: #ffffff !default;
+
+// Emphasized tabs
+$rheader_tabs_bgcolor_emphasis: $button-background !default;
+$rheader_tabs_bgcolor_emphasis_hover: $button-background-hover !default;
+$rheader_tabs_fgcolor_emphasis: #ffffff !default;
+$rheader_tabs_fgcolor_emphasis_hover: #ffffff !default;
+
+// ============================================================================
+// STYLES
+//
+// Rheader section and tabs
+//
+#rheader {
+    margin-bottom: 0.25rem;
+    .rheader-title {
+        color: #333;
+        font-weight: bold;
+        font-size: 1.1rem;
+        line-height: 1.0;
+        margin-bottom: 0.5rem;
+    }
+    .rheader-content {
+        display: inline-block;
+        max-width: 90%;
+        padding: 0.5rem;
+    }
+    table {
+        display: inline;
+        margin-bottom: 10px;
+        border: none;
+        background: none;
+        tbody, tr {
+            border: none;
+            background: none;
+        }
+        th, td {
+            font-size: 0.85rem;
+            text-align: left;
+            padding: 0.1rem 0.5rem 0.05rem 0;
+            [dir=rtl] & {
+                text-align: right;
+                padding: 0.1rem 0 0.05rem 0.5rem;
+            }
+            white-space: pre-line;
+        }
+        th {
+            color: #7F7F7F;
+            line-height: 1.1rem;
+            font-weight: normal;
+        }
+        td {
+            padding-right: 1.25rem;
+            line-height: 1.1rem;
+            font-weight: bold;
+            a {
+                font-weight: normal;
+            }
+            [dir=rtl] & {
+                padding-right: 0;
+                padding-left: 1.25rem;
+            }
+        }
+    }
+
+    // QR Codes in rheaders
+    .rheader-qrcode {
+        display: inline-block;
+        border: 1px solid #eee;
+        margin-right: 0.5rem;
+        vertical-align: top;
+    }
+
+    // Profile pictures in rheaders
+    .rheader-avatar {
+        clear: none;
+        display: inline-block;
+        float: none;
+        padding: 0;
+        vertical-align: top;
+        margin-right: 0.8rem;
+        [dir=rtl] & {
+            margin-right: 0;
+            margin-left: 0.8rem;
+        }
+    }
+
+    /* Rheader Tabs */
+    div.tabs {
+        // Tabs section
+        display: block;
+        clear: none;
+
+        height: 32px;
+        width: 100%;
+
+        margin: 5px 0!important;
+        padding: 4px 4px 0 0;
+
+        text-align: left;
+
+        border-bottom: 1px solid $rheader_tabs_bgcolor_inactive;
+
+        span {
+            // General tabs
+            float: left;
+            position: relative;
+
+            font-size: 13px;
+            font-weight: normal;
+
+            margin: 3px 0.2rem 0 0;
+            padding: 2px 0.4rem 1px;
+
+            border: {
+                color: $rheader_tabs_bgcolor_inactive;
+                width: 1px;
+                style: solid;
+                radius: 3px 3px 0 0;
+            }
+            background-color: $rheader_tabs_bgcolor_inactive;
+            &:hover {
+                background-color: $rheader_tabs_bgcolor_inactive_hover;
+                border-color: $rheader_tabs_bgcolor_inactive_hover;
+            }
+            &.emphasis {
+                border-color: $rheader_tabs_bgcolor_emphasis;
+                background-color: $rheader_tabs_bgcolor_emphasis;
+                &:hover {
+                    border-color: $rheader_tabs_bgcolor_emphasis_hover;
+                    background-color: $rheader_tabs_bgcolor_emphasis_hover;
+                }
+            }
+
+            a {
+                line-height: 16px;
+                color: $rheader_tabs_fgcolor_inactive;
+                text-decoration: none;
+                background: transparent;
+                &:hover {
+                    color: $rheader_tabs_fgcolor_inactive_hover;
+                    background: transparent;
+                }
+            }
+
+            // Active tab
+            &.tab_here {
+                font-size: 14px;
+                font-weight: bold;
+
+                margin-top: 0;
+                margin-right: 0.4rem;
+                &:not(:first-child) {
+                    margin-left: 0.2rem;
+                }
+                padding: 3px 0.4rem 0px;
+
+                background: $rheader_tabs_bgcolor_active;
+                border: {
+                    color: $rheader_tabs_bgcolor_inactive;
+                    style: solid;
+                    width: 2px 2px 2px 3px; //rem_calc(2) rem_calc(2) rem_calc(2) rem_calc(3);
+                    bottom: {
+                        style: solid;
+                        color: $rheader_tabs_bgcolor_active;
+                    }
+                }
+
+                &:hover {
+                    background-color: $rheader_tabs_bgcolor_active_hover;
+                    border-bottom: {
+                        style: solid;
+                        color: $rheader_tabs_bgcolor_active;
+                    }
+                }
+                a {
+                    color: $rheader_tabs_fgcolor_active !important;
+                    &:hover {
+                        color: $rheader_tabs_fgcolor_active_hover !important;
+                    }
+                }
+
+            }
+        }
+
+        [dir=rtl] & {
+            padding-left: 4px;
+            padding-right: 0;
+            text-align: right;
+            span {
+                float: right;
+                margin-right: 0;
+                margin-left: 0.2rem;
+                &.tab_here {
+                    margin-left: 0.4rem;
+                    &:not(:first-child) {
+                        margin-right: 0.2rem;
+                    }
+                }
+            }
+        }
+
+    }
+}
+
+// END ========================================================================

@@ -1,0 +1,12 @@
+{{extend "layout.html"}}
+<div class="row">
+  <div class="small-12 columns">
+    <h2>Error ticket for "{{=app}}"</h2>
+    <h2>Ticket {{=ticket}}</h2>
+    <h3>Error traceback</h3>
+    {{=traceback}}
+    <h3>In file: {{=layer}}</h3>
+    {{=CODE(code, language="python", link="/examples/global/vars/")}}
+  </div>
+</div>
+

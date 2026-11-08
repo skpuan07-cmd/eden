@@ -1,0 +1,37 @@
+/.bzr
+/.bzrignore
+/cache/*
+/compiled/*
+/databases/*
+/docs/build/*
+/errors/*
+/indices/*
+/models/000_config.py
+/models/0000_update_check.py
+/sessions/*
+/uploads/*
+/private/keys/*
+/static/cache/*
+/static/fonts/unifont.ttf
+/static/scripts/tools/compiler.jar
+/static/themes/SHARE/data/*
+/static/data/*/*
+/tests/unit/*.pdf
+.DS_Store
+/languages/*.po
+.~lock.*.csv#
+*.log
+*.pyc
+*.~*~
+.directory
+.pythonhistory
+.idea
+.sass-cache
+/yaml/*
+# Ignore plugins
+/modules/plugins/*
+!/modules/plugins/__init__.py
+!/modules/plugins/skeleton.py
+# Ignore IDE project files
+.vscode/*
+*.code-workspace

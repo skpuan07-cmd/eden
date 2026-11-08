@@ -1,0 +1,511 @@
+// ============================================================================
+// Styles for Datatables
+// ============================================================================
+// VARIABLES
+
+// Foundation variables used:
+//$primary-color
+//$alert-color
+
+// Border
+$datatables_border_color: #cccccc !default;
+
+// Even/odd rows background
+$datatables_bgcolor_even: #ffffff !default;
+$datatables_bgcolor_odd: #f7f8f9 !default;
+$datatables_bgcolor_even_highlight: #fafafa !default;
+$datatables_bgcolor_odd_highlight: #f0f1f2 !default;
+
+// Header and footer
+$datatables_bgcolor_foot: #f7f8f9 !default;
+$datatables_bgcolor_head: #ffffff !default;
+
+// ============================================================================
+// STYLES
+//
+// General table styles
+//
+table {
+    width: auto;
+    th, td {
+        text-align: left;
+        [dir=rtl] & {
+            text-align: right;
+        }
+    }
+}
+
+// ----------------------------------------------------------------------------
+// The table itself
+// - child of form.dt-wrapper > div.dataTables_wrapper > div.dataTable_table
+//
+.dataTable {
+
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+
+    thead, tbody, tfoot {
+        th, td {
+            border: 1px solid $datatables_border_color;
+            padding: 0.2rem 1.5rem 0.2rem 0.5rem;
+            [dir=rtl] & {
+                padding: 0.2rem 0.5rem 0.2rem 1.5rem;
+            }
+            &.dt-bulk {
+                padding: 0.2rem;
+                text-align: center;
+                vertical-align: middle;
+                min-width: 3rem;
+            }
+            &.dt-actions {
+                white-space: nowrap;
+            }
+        }
+        th {
+            text-align: center;
+        }
+    }
+
+    thead {
+        background-color: $datatables_bgcolor_head;
+        th {
+            // override jquery.dataTables.css
+            border-bottom: 1px solid $datatables_border_color;
+            [dir=rtl] & {
+                &.sorting, &.sorting_asc, &.sorting_desc {
+                    background-position-x: left;
+                }
+            }
+        }
+    }
+
+    tbody {
+        tr {
+            &.even {
+                background-color: $datatables_bgcolor_even;
+                td.sorting_1 { // current sorting column
+                    background-color: $datatables_bgcolor_even_highlight;
+                }
+            }
+            &.odd {
+                background-color: $datatables_bgcolor_odd;
+                td.sorting_1 { // current sorting column
+                    background-color: $datatables_bgcolor_odd_highlight;
+                }
+            }
+            &.dtalert {
+                &.even {
+                    background-color: #ffffa0;
+                    td.sorting_1 { background-color: #fffff0; }
+                }
+                &.odd {
+                    background-color: #ffffc0;
+                    td.sorting_1 { background-color: #ffffb0; }
+                }
+            }
+            &.dtwarning {
+                &.even {
+                    background-color: #ffa6a6;
+                    td.sorting_1 { background-color: #ff8383; }
+                }
+                &.odd {
+                    background-color: #ffd9d9;
+                    td.sorting_1 { background-color: #ffb6b6; }
+                }
+            }
+            &.row_selected {
+                &.odd {
+                    background-color: #40fa8d;
+                    td.sorting_1 { background-color: #20f0ad; }
+                }
+                &.even {
+                    background-color: #60f6ad;
+                    td.sorting_1 { background-color: #40fa8d; }
+                }
+            }
+            &.group {
+                background-color: #ddd;
+                border: 1px solid #aaa;
+                &.level_1 {
+                    background-color: #999;
+                    color: #def;
+                    &.activeRow {
+                        background-color: #1d70cf;
+                    }
+                    a {
+                        color: #def;
+                    }
+                }
+                &.level_2 {
+                    background-color: #ddd;
+                    color: #248;
+                    &.activeRow {
+                        background-color: #528dd1;
+                    }
+                    a {
+                        color: #248;
+                    }
+                }
+                span.ui-icon {
+                    display: inline-block;
+                }
+                .group-indent {
+                    width: 10px;
+                }
+                .group-opened,
+                .group-closed {
+                    padding: 0.2rem;
+                }
+                .group-collapse,
+                .group-expand {
+                    cursor: pointer;
+                    float: right;
+                }
+            }
+            &.dtdisable {
+                text-shadow: #ccc 1px 1px 1px;
+                color: #888;
+            }
+            td {
+                vertical-align: top;
+            }
+        }
+    }
+    tfoot {
+        th, td {
+            background-color: $datatables_bgcolor_foot;
+            border-top: 2px solid $datatables_border_color;
+            padding: 0.5em;
+        }
+
+    }
+    // Bulk-select
+    .bulk-select-options {
+        input[type=checkbox] {
+            margin-bottom: 0;
+        }
+    }
+
+    // DataTable Responsive
+    &.dtr-inline.collapsed tbody {
+        td:first-child::before,
+        th:first-child::before {
+            top: 0.4rem;
+            background-color: $primary-color;
+        }
+        tr.parent td:first-child::before,
+        tr.parent th:first-child::before {
+            background-color: $alert-color;
+        }
+    }
+
+    // Spreadsheet Importer
+    table.import-item-details {
+        display: none;
+    }
+}
+
+// ----------------------------------------------------------------------------
+// Wrapper and controls
+//
+.dataTables_wrapper {
+
+    // Scroll the table not the wrapper
+    .dataTable_table {
+        overflow: auto;
+        clear: both;
+    }
+
+    // Variable columns selection button
+    .dt-variable-columns {
+        font-size: 1rem;
+        border: 1px solid #ccc;
+        padding: 0.2rem;
+        color: #666;
+        min-width: 2.5rem;
+        &:hover {
+            border-color: #aaa;
+            background-color: #eee;
+        }
+        cursor: pointer;
+    }
+
+    // Table controls
+    .dataTables_bulk,
+    .dataTables_filter,
+    .dataTables_length {
+        float: left;
+        text-align: left!important;
+        margin: 0 3rem 4px 0;
+        font-size: 0.75rem;
+        font-weight: normal;
+        white-space: nowrap;
+        select {
+            font-size: 0.75rem;
+            text-align: center;
+            height: auto;
+            padding: 0.2rem 1.2rem 0.2rem 0.2rem;
+            border-radius: 0;
+            margin: 0 0.2rem;
+            min-width: 3rem;
+        }
+        label {
+            font-size: 0.75rem;
+            font-weight: normal;
+            white-space: nowrap;
+            margin: 0 10rem 0.3rem 0;
+            display: inline-block;
+        }
+        input[type="search"] {
+            margin-left: 0.3rem;
+            margin-right: 0rem;
+        }
+        [dir=rtl] & {
+            float: right;
+            text-align: right!important;
+            margin-left: 3rem;
+            margin-right: 0;
+            select {
+                padding: 0.2rem 0.2rem 0.2rem 1.2rem;
+            }
+            label {
+                margin-left: 10rem;
+                margin-right: 0rem;
+            }
+            input[type="search"] {
+                margin-left: 0rem;
+                margin-right: 0.3rem;
+            }
+        }
+    }
+    .dataTables_info {
+        float: right;
+        [dir=rtl] & {
+            float: left;
+        }
+        &:last-of-type {
+            float: left;
+            [dir=rtl] & {
+                float: right;
+            }
+        }
+        clear: none;
+        margin: 0.5rem 0;
+        padding-top: 0.3rem;
+    }
+    .dataTables_paginate {
+        float: right;
+        margin: 0.3rem 0 0.3rem 0.7rem;
+        padding-top: 0.3rem;
+        [dir=rtl] & {
+            float: left;
+            margin: 0.3rem 0.7rem 0.3rem 0;
+        }
+
+        &.paging_full_numbers {
+            width: auto;
+        }
+        .paginate_button,
+        .paginate_active {
+            padding: 0.1rem 0.5rem !important;
+            font-size: 0.8rem;
+            a {
+                text-decoration: none;
+                color: #333!important;
+            }
+            &:hover a {
+                color: #eee !important;
+            }
+            &:active a {
+                color: rgba(0, 0, 0, 0.5) !important;
+            }
+            &.disabled a {
+                color: #666 !important;
+            }
+            &.current a {
+                color: #333 !important;
+            }
+        }
+    }
+    .dataTables_processing {
+        z-index: 99;
+        padding: 1rem 0 2rem;
+        top: 2.5rem;
+        left: 30%;
+        background-color: #fffbe0;
+        color: #737373;
+        border-color: #737373;
+        [dir=rtl] & {
+            left: unset;
+            right: 30%;
+        }
+    }
+}
+
+// Overrides for scrollable (non-responsive) data tables
+.dt-wrapper.scrollable {
+    .dataTable_table {
+        max-height: 80vh;
+        overflow: scroll;
+        scroll-snap-type: y proximity;
+        th, td {
+            scroll-snap-align: end;
+        }
+    }
+    .dataTable {
+        border-collapse: separate;
+        border-spacing: 0;
+        border-bottom: 0;
+        th, td {
+            border-top-width: 0;
+            border-right-width: 0;
+        }
+        tr th:last-child,
+        tr td:last-child {
+            border-right-width: 1px;
+        }
+        thead {
+            tr:first-child th {
+                border-top-width: 1px
+            }
+            position: sticky;
+            top: 0;
+            background-color: $datatables_bgcolor_head;
+        }
+    }
+}
+
+// ----------------------------------------------------------------------------
+// Variable columns selection dialog
+//
+.column-selector {
+    table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0.1rem;
+        td {
+            padding: 0.15rem;
+            margin: 0;
+            label {
+                margin: 0;
+                input {
+                    margin: 0.2rem;
+                }
+            }
+            width: 100%;
+            &.column-left, &.column-right {
+                cursor: pointer;
+                width: 1.5rem;
+                min-width: 1.5rem;
+                font-size: 1rem;
+                text-align: center;
+                &:hover {
+                    background-color: #eee;
+                }
+            }
+        }
+        thead {
+            background-color: #fffccb;
+            th, td {
+                border: 0;
+                padding: 0.4rem 0.2rem;
+                label {
+                    max-width: 8rem;
+                }
+            }
+            font-size: 0.8rem;
+            i.fa {
+                font-size: 0.95rem;
+                cursor: pointer;
+            }
+            select option:disabled {
+                display: none;
+            }
+            select:focus, input:focus {
+                background-color: #fffbe0;
+            }
+            .cfg-select-throbber {
+                position: absolute;
+                right: 4.5rem;
+                top: 0.95rem;
+                display: none;
+            }
+        }
+        tbody {
+            td {
+                border: 1px solid #ccc;
+            }
+            &.ui-sortable .sortable-placeholder {
+                background-color: #fff7d8;
+            }
+        }
+    }
+    .submit-form-btn {
+        margin-bottom: 0.3rem;
+    }
+}
+
+// ----------------------------------------------------------------------------
+// Export options
+//
+.dt-export-options {
+    float: right;
+    [dir=rtl] & {
+        float: left;
+    }
+    padding-top: 5px;
+    .list_formats {
+        padding-top: 0;
+        margin: 0 0.2rem;
+    }
+}
+.dt-export {
+    display: inline-block;
+    margin: 0 0.15rem;
+    cursor: pointer;
+    height: 16px;
+    width: 16px;
+    background-repeat: no-repeat;
+    &.fa {
+        font-size: 14px;
+        padding: 0;
+        padding-top: 2px;
+    }
+    &.export_cap {
+        background-image: url(../../img/cap_16.png);
+    }
+    &.export_have {
+        background-image: url(../../img/have_16.png);
+    }
+    &.export_kml {
+        background-image: url(../../img/kml_icon.png);
+    }
+    &.export_map {
+        background-image: url(../../img/map_icon.png);
+    }
+    &.export_pdf {
+        background-image: url(../../img/pdficon_small.gif);
+    }
+    &.export_rss {
+        background-image: url(../../img/RSS_16.png);
+    }
+    &.export_xls {
+        background-image: url(../../img/icon-xls.png);
+    }
+    &.export_xlsx {
+        background-image: url(../../img/icon-xls.png);
+    }
+    &.export_xml {
+        background-image: url(../../img/icon-xml.png);
+    }
+}
+
+// ----------------------------------------------------------------------------
+// Empty-section
+//
+.empty {
+    @include empty_section();
+}
+
+// END ========================================================================

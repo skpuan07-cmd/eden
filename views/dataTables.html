@@ -1,0 +1,9 @@
+{{s3base.include_datatable_js()}}
+<script type="text/javascript">
+{{=XML(s3base.DataTable.i18n())}}
+S3.dataTables={}
+{{if s3.datatable_id:}}{{idlist=[s3.datatable_id] if not isinstance(s3.datatable_id, (tuple, list)) else s3.datatable_id}}S3.dataTables.id=[{{=XML(",".join(["'%s'" % id for id in idlist]))}}]{{pass}}
+S3.dataTables.initComplete=function(){{=xmlescape("{")}}{{if s3.dataTable_initComplete:}}{{=XML(s3.dataTable_initComplete)}}{{pass}}{{=xmlescape("}")}}
+{{if s3.actions:}}S3.dataTables.Actions={{=XML(s3.actions)}}{{pass}}
+</script>
+{{if s3.dataTableMap:}}{{=XML(s3.dataTableMap)}}{{pass}}

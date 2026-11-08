@@ -1,0 +1,945 @@
+// ============================================================================
+// Styles for Widgets
+// ============================================================================
+// VARIABLES
+
+// Foundation variables used:
+//$alert-color
+//$alert-button-bg-hover
+//$body-font-family
+
+// Comment feeds
+$comments_feed_item_bgcolor: #f5f5f5 !default;
+
+// Anonymize-Button
+$anonymize_button_bgcolor: $alert-color !default;
+$anonymize_button_bgcolor_hover: $alert-button-bg-hover !default;
+
+// ============================================================================
+// STYLES
+//
+// ----------------------------------------------------------------------------
+// General Form Widgets
+//
+input[type="text"],
+input[type="password"],
+input[type="date"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="month"],
+input[type="week"],
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="tel"],
+input[type="time"],
+input[type="url"],
+select,
+textarea {
+    max-width: 100%;
+    display: inline-block;
+    height: 1.75rem;
+    width: auto;
+    margin: 0;
+    padding: 0.25rem;
+    font-weight: normal;
+    &:focus {
+        background-color: #fffbe0;
+    }
+}
+input {
+    &[type=file] {
+        width: auto;
+        cursor: pointer;
+        &::file-selector-button {
+            background-color: #ccc;
+            color: #333;
+            border: 0;
+            border-radius: 0;
+            padding: 5px 10px;
+        }
+    }
+    // Date Picker Widget
+    &.datetimepicker,
+    &.date-filter-input,
+    &.range-filter-input {
+        max-width: 8rem;
+    }
+    // Saved Filters Page; Inline Editor for Filter Titles
+    form.jeditable-input & {
+        max-width: rem-calc(400) !important;
+    }
+}
+select {
+    font-size: 0.825rem;
+    [dir=ltr] & {
+        padding: 0 1.25rem 0 0.25rem;
+    }
+    [dir=rtl] & {
+        padding: 0 0.25rem 0 1.25rem;
+    }
+}
+textarea {
+    resize: both;
+    vertical-align: top;
+    font-size: 0.8rem;
+    &.comments {
+        height: 50px;
+    }
+    &.richtext {
+        height: 100px;
+    }
+}
+select[disabled='disabled'],
+input[disabled='disabled'] {
+    /* A lighter background so the text is more readable */
+    background: #eee;
+    color: #333;
+    /* Make the cursor not change to editable */
+    cursor: default;
+}
+
+// ----------------------------------------------------------------------------
+// jQuery UI widgets
+//
+.ui-dialog {
+    padding: 0;
+    width: auto;
+    &:not(.qrinput-dialog) {
+        width: 750px!important;
+        max-width: 100%;
+    }
+    .ui-dialog-content {
+        // Ensure maximal space for iframe within Dialog
+        padding: 0 !important;
+    }
+}
+
+/* UI Multiselect */
+label.ui-corner-all span {
+    [dir=ltr] & {
+        left: 10px;
+    }
+    [dir=rtl] & {
+        right: 10px;
+    }
+}
+
+/* S3SelectWidget() icons */
+.ui-selectmenu-menu .ui-menu.customicons {
+    height: 400px;
+    .ui-menu-item {
+        padding: 1em 0 1em 4em;
+        .ui-icon {
+            background-repeat: no-repeat !important;
+            background-position: left top;
+            top: 0.1em;
+        }
+    }
+    [dir=rtl] & {
+        .ui-menu-item {
+            padding: 1em 4em 1em 0;
+            .ui-icon {
+                background-position: right top;
+            }
+        }
+    }
+}
+.ui-widget-header {
+    background: none;
+    border: 1px solid #ADA6A0;
+    &.ui-slider-range {
+        background: #cccccc;
+    }
+    a {
+        color: #222222 !important;
+        border-color: #C7C7C7;
+        margin-bottom: 0px;
+        //background: none;
+        font-weight: bold;
+        text-decoration: none !important;
+        font-size: 0.85rem;
+    }
+}
+.ui-state-active,
+.ui-widget-content .ui-state-active,
+.ui-widget-header .ui-state-active {
+    border-color: #ADA6A0;
+}
+.ui-widget-content .ui-state-active.ui-slider-handle {
+    background: #007fff;
+    border: 1px solid #003eff;
+}
+.ui-multiselect-header {
+    span.ui-icon {
+        margin-top: 1px;
+    }
+    [dir=rtl] & {
+        .ui-multiselect-filter {
+            direction: rtl;
+            float: right;
+            margin-right: 3px;
+            margin-left: 10px;
+        }
+        ul li {
+            float: right;
+            padding: 0 3px 0 10px;
+        }
+        li.ui-multiselect-close {
+            float: left;
+            text-align: left;
+            padding-left: 0;
+        }
+    }
+}
+.ui-multiselect-checkboxes li label input {
+    margin-left: 0.2rem;
+    margin-right: 0.3rem;
+}
+button.ui-multiselect {
+    min-height: 1.75rem;
+    background-color: #FAFAFA;
+    &:focus, &:focus:hover, &.ui-state-active {
+        color: #222222;
+        background-color: #fffbe0;
+    }
+    &:hover {
+        color: #222222;
+        background-color: #F8F8F8;
+    }
+    .filter-form &,
+    .report-options & {
+        max-width: 60%;
+    }
+}
+.ui-widget {
+    font-family: $body-font-family;
+}
+
+// ----------------------------------------------------------------------------
+// Password Widget
+//
+.s3-password-widget {
+    display: inline-block;
+}
+.s3-unmask {
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+// ----------------------------------------------------------------------------
+// Checkboxes Widget
+//
+.controls .checkboxes-widget-s3 {
+  display: inline-flex;
+}
+
+// ----------------------------------------------------------------------------
+// Action Toolbar (Saved Filters Page)
+//
+.action-bar {
+    color: #8a8989;
+    font-size: 14px;
+    position: relative;
+    top: 4px;
+    &.fleft {
+        margin-right: 8px;
+    }
+    a:hover,
+    a:visited:hover {
+        color: #ffa500;
+        text-decoration: none;
+    }
+}
+
+// ----------------------------------------------------------------------------
+// Hierarchy Widget
+//
+.s3-hierarchy-tree.jstree,
+.s3-hierarchy-header {
+    border: 1px solid #ccc;
+    padding: 2px 3px 4px 3px;
+    background: white;
+}
+.jstree-contextmenu {
+    z-index: 9999;
+}
+.s3-hierarchy-wrapper {
+    z-index: 9998;
+}
+.s3-hierarchy-header {
+    font-size: 0.8rem;
+    display: none;
+}
+.s3-hierarchy-action-node,
+.s3-hierarchy-none {
+    font-style: italic;
+}
+
+// ----------------------------------------------------------------------------
+// Translate module
+//
+.form-container form .translation_module_table td {
+    padding: 0.3rem;
+}
+
+// ----------------------------------------------------------------------------
+// InlineLink read-only list representation
+//
+ul.s3-inline-link {
+    font-size: inherit;
+}
+
+// ----------------------------------------------------------------------------
+// Location Selector
+//
+option.missing {
+    background-color: yellow;
+}
+.geocode_fail,
+.geocode_success {
+    margin: 0.2rem 0.7rem;
+}
+.geocode_success {
+    color: #0a0;
+}
+.geocode_fail {
+    color: #f00;
+}
+.dms-label {
+    padding: 4px;
+    font-weight: bold;
+}
+.dms-input.invalidinput {
+    border: solid thin red;
+}
+
+// ----------------------------------------------------------------------------
+// GIS (Xtheme)
+//
+ul.x-tab-strip,
+ul.x-tree-node-ct,
+ul.x-tree-root-ct {
+    list-style: none outside none;
+}
+.x-toolbar table {
+    border-collapse: separate;
+    width: auto;
+    tbody, tr {
+        background: none;
+    }
+}
+
+// ----------------------------------------------------------------------------
+// Date picker
+//
+.calendar-widget-container {
+    white-space: nowrap;
+}
+input.date.hasDatepicker {
+    display: inline-block;
+}
+.ui-datepicker-trigger {
+    background-color: rgba(0, 0, 0, 0);
+    background-image: url(../../img/calendar.gif);
+    background-repeat: no-repeat;
+    height: 15px;
+    width: 16px;
+    padding: 0;
+    margin: 0;
+    margin-left: 5px;
+    .form-container form & {
+        margin-left: 5px;
+    }
+    border: 0; // Make it not like a button
+    vertical-align: middle;
+    [dir=rtl] &,
+    [dir=rtl] .form-container form & {
+        margin-left: 0;
+        margin-right: 5px;
+    }
+}
+.ui-datepicker.ui-widget {
+    z-index: 1000!important;
+    dl dd, dl dt {
+        font-size: 0.8rem;
+    }
+    dl dt {
+        margin-bottom: 0;
+    }
+}
+.btn.date-clear-btn {
+    font-size: 0.65rem;
+    padding: 0.2rem 0.4rem;
+    margin: 0 0.25rem;
+}
+.postfix.calendar-clear-btn {
+    cursor: pointer;
+    .fa {
+        color: #B0B0B0;
+    }
+}
+
+// ----------------------------------------------------------------------------
+// Range filter widgets
+//
+.range-filter,
+.date-filter {
+    display: inline-block;
+}
+.range-filter-label label {
+    font-size: 1.0em;
+}
+.range-filter-widget {
+    button.date-clear-btn {
+        font-size: 0.85em;
+        padding: 0.325em;
+        margin-top: 0.5em;
+    }
+}
+
+// ----------------------------------------------------------------------------
+// GroupedOptions widget
+//
+.s3-groupedopts-widget {
+    table {
+        margin-left: 0;
+        margin-bottom: 0.5rem;
+    }
+    label {
+        display: inline;
+        margin-left: 5px;
+        font-weight: normal;
+        .optlabel {
+            vertical-align: middle;
+        }
+        .form-container form fieldset & {
+            white-space: nowrap;
+            text-align: left;
+        }
+        &[title] .optlabel {
+            border-bottom: dotted 1px #ccc;
+        }
+    }
+    .optLabel {
+        display: inline-block;
+    }
+    .filter-form &,
+    .report-options & {
+        display: inline-block;
+    }
+}
+table.s3-groupedopts-widget {
+    td {
+        white-space: nowrap;
+        input.s3-groupedopts-option {
+            vertical-align: middle;
+            margin: 0 0.3rem 0 0;
+        }
+        label {
+            white-space: pre-wrap;
+            margin: 0 0.5rem;
+        }
+    }
+    margin-bottom: 0;
+}
+div.s3-groupedopts-widget {
+    .s3-groupedopts-item {
+        display: inline-block;
+        padding-top: 0.15rem;
+    }
+    input.s3-groupedopts-option {
+        vertical-align: text-top;
+        margin: 0 0.3rem 0 0;
+    }
+}
+.s3-groupedopts-label {
+    margin: 10px 0 0 7px;
+    margin-bottom: 0.3rem;
+    padding-left: 20px;
+    min-height: 16px;
+    min-width: 20px;
+    background: url(../../img/icon_blue_plus15px.png) no-repeat;
+    cursor: pointer;
+    font-size: 0.7rem;
+    &.expanded {
+        background: url(../../img/icon_blue_minus15px.png) no-repeat;
+    }
+}
+
+// ----------------------------------------------------------------------------
+// ImageCropWidget
+//
+.imagecrop-drag {
+    font-weight: bold;
+    text-align: center;
+    padding: 3em 0;
+    margin: 1em 0;
+    color: #555;
+    border: 2px dashed #555;
+    border-radius: 7px;
+    cursor: default;
+    &.hover {
+        border-style: solid;
+        background-color: #F7F8F9;
+    }
+}
+.imagecrop-btn {
+    display: none;
+    cursor: pointer;
+}
+.imagecrop-btn {
+    font-size: 1em;
+    margin-left: 0.2em;
+    padding: 0.3em;
+}
+.image-upload {
+    .capture-btn {
+        width: 100%;
+    }
+}
+.capture-form {
+    overflow: hidden;
+    max-width: 100%;
+    .preview-video {
+        display: block;
+        width: 800px;
+        max-width: 100%;
+        margin: 0 auto;
+    }
+    .shutter-btn {
+        display: block;
+        width: 100%;
+        margin: 1px 0;
+    }
+}
+
+// ----------------------------------------------------------------------------
+// Widget Advice
+//
+.widget-advice {
+    max-width: 42rem;
+    padding: 0.3rem 0.3rem 0.5rem;
+    font-size: 0.8rem;
+    font-style: italic;
+    white-space: pre-line;
+    margin: 0.1rem 0;
+}
+
+// ----------------------------------------------------------------------------
+// pr_Contacts
+//
+.pr-contacts-wrapper h3 {
+  margin-top: 0.5rem;
+  padding-bottom: 0 !important;
+}
+.pr-contacts-editable {
+    input, select {
+        min-height: 1.2rem;
+        margin: 2px 0;
+    }
+}
+.pr-contact-actions {
+  margin-bottom: 0.5rem;
+}
+.pr-contact,
+.pr-emergency-contact {
+  padding: 0.5rem;
+}
+.pr-contact-priority,
+.pr-contact-details {
+    display: inline-block;
+}
+.pr-contact-subtitle {
+  font-size: 0.8rem;
+  font-style: italic;
+}
+.pr-contact-priority {
+    border: thin solid #2ba6cb;
+    border-radius: 2px;
+    color: #2ba6cb;
+    font-size: 0.8rem;
+    line-height: 1rem;
+    margin: 0.25rem 1rem 0 0;
+    padding: 0 0.25rem 0.125rem;
+    vertical-align: top;
+    input[type=submit] {
+        color: black;
+        line-height: 1.2rem;
+        font-size: 0.8rem;
+    }
+    [dir=rtl] & {
+        margin: 0.25rem 0 1rem 0;
+    }
+}
+
+// ----------------------------------------------------------------------------
+// PersonSelector
+//
+.box_top,
+.box_top_inner {
+    border-top: #bbb 1px solid;
+    label {
+        display: inline-block;
+    }
+}
+.box_top {
+    padding-top: 1rem;
+    &.form-row.row {
+        margin: 0.7rem 0 0 0;
+        .columns {
+            padding: 0;
+        }
+    }
+}
+.box_top_inner {
+    padding-top: 0.2rem;
+    padding-bottom: 0.5rem;
+}
+.box_bottom {
+    border-bottom: 1px solid #bbb ;
+    padding-bottom: 1rem;
+}
+.add_person_edit_bar {
+    cursor: pointer;
+    display: inline-block;
+    padding-left: 1.2rem;
+    margin-top: 1rem;
+    a {
+        text-decoration: none;
+    }
+    [dir=rtl] & {
+        padding-left: 0;
+        padding-right: 1.2rem;
+    }
+}
+.card > .fleft {
+    margin-right: 10px;
+    [dir=rtl] & {
+        margin-right: 0;
+        margin-left: 10px;
+    }
+}
+.media-object {
+    display: block;
+}
+.ui-menu-item .pe-label {
+    font-size: 0.7rem;
+    color: #A0A0A0;
+    vertical-align: super;
+}
+
+// ----------------------------------------------------------------------------
+// Presence Registration
+//
+.presence-registration {
+    .controls {
+        width: 100%;
+    }
+    .status-label {
+        font-size: 0.9rem;
+    }
+    .status-message {
+        font-size: 0.9rem;
+        font-weight: bold;
+    }
+    .person-details {
+        font-size: 1rem;
+    }
+    .site-presence-in, .site-presence-out {
+        i.fa {
+            margin-right: 0.2rem;
+        }
+    }
+    .site-presence-in {
+        color: #080;
+    }
+    .site-presence-out {
+        color: #c00;
+    }
+}
+
+// ----------------------------------------------------------------------------
+// QR Input
+//
+.qrinput {
+    display: inline-block;
+    .qrscan-btn {
+        vertical-align: top;
+        padding: 0.4rem 0.8rem;
+        text-align: center;
+        margin: 0 0.5rem;
+        .fa {
+            font-size: 16px;
+            margin: 0 0.2rem;
+            vertical-align: middle;
+        }
+    }
+    .postfix.clear-btn {
+        cursor: pointer;
+        .fa {
+            color: #B0B0B0;
+        }
+        display: inline-block;
+        width: 1.2rem;
+    }
+    input {
+        max-width: 14rem;
+    }
+}
+.qrinput-success, .qrinput-invalid {
+    text-align: center;
+    font-size: 4rem;
+    padding: 1rem;
+    color: darkgreen;
+}
+.qrinput-invalid {
+    color: $alert-color;
+}
+
+// ----------------------------------------------------------------------------
+// Anonymize-Widget
+//
+form.anonymize-form,
+.anonymize-success {
+    padding: 1rem;
+}
+.anonymize-select,
+.anonymize-confirm {
+    margin-left: 1rem;
+    [dir=rtl] & {
+        margin-left: 0;
+        margin-right: 1rem;
+    }
+}
+.anonymize-buttons {
+    margin-top: 1rem;
+    .button {
+        margin-bottom: 0.3rem;
+    }
+}
+.anonymize-btn {
+    background-color: $anonymize_button_bgcolor;
+    &:hover {
+        background-color: $anonymize_button_bgcolor_hover;
+    }
+}
+.s3-anonymize {
+    display: inline-block;
+    margin: 0.2rem;
+}
+
+// ----------------------------------------------------------------------------
+// Consent Widget
+//
+.consent-widget {
+    border: 1px solid #E0E0E0;
+    padding: 0.5rem 1rem;
+    .consent-option {
+        margin-top: 0.3rem;
+    }
+    .consent-explanation {
+        white-space: pre-wrap;
+        padding: 0.3rem 1.7rem;
+        font-size: 0.8rem;
+        font-style: italic;
+        color: #7F7F7F;
+    }
+    .consent-title {
+        font-weight: bold;
+    }
+    .consent-checkbox {
+        margin-right: 0.5rem!important;
+    }
+    .req {
+        padding: 0 0.2rem;
+    }
+    .req_key {
+        font-size: 0.7rem;
+        font-weight: normal;
+        font-style: italic;
+        margin: 0 0.5rem;
+    }
+}
+
+// ----------------------------------------------------------------------------
+// Weekly Hours Widget
+//
+.wh-raster {
+    margin-top: 0.3rem;
+    tr {
+        border-bottom: 1px solid #ccc;
+    }
+    td {
+        border-left: 1px solid #ccc;
+        &.wh-tick {
+            border-left-width: 2px;
+        }
+    }
+    thead {
+        td {
+            min-width: 1.8rem;
+            padding-right: 0.6rem !important;
+            font-size: 0.6rem;
+            font-weight: normal;
+        }
+    }
+    tbody {
+        td {
+            &.wh-hour {
+                text-align: center;
+                font-weight: normal;
+                &.wh-on {
+                    color: darkgreen;
+                }
+            }
+            &.wh-day {
+                text-align: left;
+                font-size: 0.7rem;
+                padding: 0.2rem 0.4rem;
+            }
+        }
+    }
+    .wh-hour {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+
+        &.wh-on {
+            background-color: lightgreen;
+        }
+        &.wh-off {
+            background-color: transparent;
+        }
+    }
+}
+
+// ----------------------------------------------------------------------------
+// Comment feeds (cms/project)
+//
+#comments {
+    margin: 0;
+    padding: 0;
+    list-style: none outside none;
+    ul, ol {
+        padding-left: 20px;
+        list-style: none outside none;
+    }
+    li {
+        padding: 10px 0 0;
+        a.jcollapsible:hover {
+            background: none;
+        }
+    }
+    .comment-box {
+        overflow: hidden;
+        padding: 15px 0;
+        background: none repeat scroll 0 0 $comments_feed_item_bgcolor;
+        display: block;
+        overflow: hidden;
+        padding: 10px;
+        .avatar {
+            display: inline-block;
+            vertical-align: top;
+        }
+    }
+    .comment-text {
+        padding: 0 0 0 0.5rem;
+        display: inline-block;
+        ul {
+            list-style: disc outside none;
+        }
+        ol {
+            list-style: decimal outside none;
+        }
+        li {
+            padding: 0;
+        }
+        div {
+            white-space: pre-line;
+        }
+        .comment-header {
+            font-size: 0.8rem;
+        }
+        .comment-body {
+            p, li {
+                font-size: 0.9rem;
+            }
+        }
+    }
+    .fright {
+        float: right;
+        text-align: right;
+    }
+    .comment-date {
+        font-size: 0.7rem;
+        margin-bottom: 0.5rem;
+    }
+    //.comment-reply {}
+    .comment-footer {
+        clear: left;
+    }
+    // Override Ext styles:
+    em {
+        font-style: italic;
+    }
+    strong {
+        font-weight: bold;
+    }
+    [dir=rtl] & {
+        ul, ol {
+            padding-left: 0;
+            padding-right: 20px;
+        }
+        .comment-text {
+            padding: 0 0.5rem 0 0;
+        }
+        .fright {
+            float: left;
+            text-align: left;
+        }
+        .comment-footer {
+            clear: right;
+        }
+    }
+}
+#comment-form {
+    width: 40rem;
+    max-width: 100%;
+    border: 1px #9c9c9c dashed;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+// ----------------------------------------------------------------------------
+// Req quantity
+//
+.ajax_more {
+    float: right;
+    margin: 0 2px 2px 0;
+    [dir=rtl] & {
+        float: left;
+        margin: 0 0 2px 2px;
+    }
+    width: 16px;
+    height: 16px;
+    &.collapsed {
+        background: url(../../img/icon_blue_plus15px.png) no-repeat left top;
+    }
+    &.expanded {
+        background: url(../../img/icon_blue_minus15px.png) no-repeat left top;
+    }
+}
+
+// ----------------------------------------------------------------------------
+// Supply (supply_item_entity_controller)
+//
+.rfilter {
+    float: left;
+    padding: 10px 20px 10px 10px;
+}
+
+// END ========================================================================

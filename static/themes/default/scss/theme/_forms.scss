@@ -1,0 +1,526 @@
+// ============================================================================
+// Styles for Forms
+// ============================================================================
+// VARIABLES
+
+// Foundation variables used:
+
+// Form/Item Container
+$form_container_bgcolor: #fefefe !default;
+$item_container_controls_bgcolor: #fafafa !default;
+
+// Form Labels
+$form_label_color: black !default;
+
+// Form Errors
+$form_error_bgcolor: #c60f13 !default;
+
+// ============================================================================
+// STYLES
+//
+// Forms and Form Elements
+//
+form {
+    font-size: 0.8rem;
+    .form-row {
+        &.row {
+            padding: 0 0.3rem;
+            margin-top: 0.5rem;
+        }
+        .button {
+            [dir=ltr] & {
+                margin-right: 0.5rem;
+                i.fa {
+                    margin-right: 0.3rem;
+                }
+            }
+            [dir=rtl] & {
+                margin-left: 0.5rem;
+                i.fa {
+                    margin-left: 0.3rem;
+                }
+            }
+            margin-bottom: 0.3rem;
+        }
+        & > .columns {
+            &:first-child {
+                overflow: hidden;
+            }
+            & > label {
+                font-weight: bold;
+            }
+        }
+        & > a {
+            [dir=ltr] & {
+                margin-left: 0.625rem;
+            }
+            [dir=rtl] & {
+                margin-right: 0.625rem;
+            }
+        }
+        select {
+            min-width: 4rem;
+        }
+        .controls span.postfix {
+            display: inline-block;
+            padding: 0 0.3rem;
+            border: 1px solid #ccc;
+            border-left: none;
+            text-align: center;
+            vertical-align: top;
+            background-color: #f2f2f2;
+            height: 1.75rem;
+            line-height: 1.5rem;
+            font-size: 0.8rem;
+            .fa {
+                line-height: inherit;
+            }
+        }
+        .s3-hierarchy-widget,
+        .calendar-widget-container {
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .inline-component {
+            overflow: auto;
+        }
+    }
+    .jstree-anchor {
+        font-size: 0.9rem;
+    }
+    label {
+        cursor: pointer;
+        margin-bottom: 0.175rem;
+        margin-left: 0.125rem;
+        &.inline {
+            padding: 0;
+            margin: 0 0 0.5rem;
+        }
+    }
+    .gis_loc_select_btn {
+        font-size: 0.8em;
+        i {
+            font-size: 1.0em;
+            [dir=ltr] & {
+                margin-right: 4px;
+            }
+            [dir=rtl] & {
+                margin-left: 4px;
+            }
+        }
+    }
+    .error {
+        display: block;
+        [dir=ltr] {
+            padding: 0.2rem 0 0 0.2rem;
+        }
+        [dir=rtl] {
+            padding: 0.2rem 0.2rem 0 0;
+        }
+        margin-top: 0;
+        margin-bottom: 0.2rem;
+        font-size: 0.75rem;
+        font-style: italic;
+        background: transparent;
+        color: #c60f13;
+    }
+    .error_top .error {
+        margin-top: 1.4rem;
+        padding: 0;
+    }
+    .invalidinput {
+        border: 1px solid #c60f13;
+    }
+    .action-lnk {
+        font-weight: normal;
+        font-size: 0.75rem;
+        margin-bottom: 0.3rem;
+    }
+
+    .inline-throbber {
+        background-image: url(../../img/indicator.gif);
+        background-repeat: no-repeat;
+        background-position: center;
+        height: 16px;
+        width: 16px;
+    }
+
+    .s3_inline_add_resource_link a {
+        [dir=ltr] & {
+            margin-left: 2px;
+            padding-left: 2px;
+        }
+        [dir=rtl] & {
+            margin-left: 2px;
+            padding-left: 2px;
+        }
+    }
+
+    .inline-open-add {
+        display: inline-block;
+        margin-bottom: 1.25rem;
+        [dir=ltr] {
+            margin-left: 0;
+        }
+        [dir=rtl] {
+            margin-right: 0;
+        }
+    }
+    .subheading {
+        background-color: #FFEDCB;
+        font-size: 0.9rem;
+        font-weight: bold;
+        border-top: solid 1px #FFD7A3;
+        [dir=ltr] & {
+            border-left: solid 1px #FFD7A3;
+            padding: 0.25rem 0.25rem 0.25rem 0.75rem;
+        }
+        [dir=rtl] & {
+            border-right: solid 1px #FFD7A3;
+            padding: 0.25rem 0.75rem 0.25rem 0.25rem;
+        }
+        margin: 1.5rem 0 0.75rem;
+        &:first-of-type {
+            margin-top: 0;
+        }
+    }
+    // Login-form on homepage
+    &.auth_login #submit_record__row {
+        white-space: pre;
+    }
+}
+
+// ----------------------------------------------------------------------------
+// Inline-components
+//
+.embeddedComponent {
+    margin-top: 0.125rem;
+    margin-bottom: 0.125rem;
+    border: 1px solid #dddddd;
+    border-collapse: separate;
+    border-spacing: 0;
+    td {
+        border: none;
+        text-align: left;
+        padding: 0.25rem 0.75rem 0.25rem 0.25rem;
+        [dir=rtl] & {
+            text-align: right;
+            padding: 0.25rem 0.25rem 0.25rem 0.75rem;
+        }
+    }
+    &.subform-vertical {
+        .add-row, .edit-row {
+            td {
+                border-top: 1px solid #dddddd;
+                padding: 0 0.4rem 0.4rem;
+                &.subform-action {
+                    vertical-align: bottom;
+                }
+            }
+        }
+    }
+    .label-row {
+        td {
+            color: #b3b3b3;
+            border-bottom: 1px solid #dddddd;
+            &:empty {
+                padding: 0;
+            }
+        }
+        label {
+            color: $form_label_color;
+            margin: 0;
+        }
+    }
+    tr.inline-form {
+        input,
+        .btn.date-clear-btn,
+        .postfix.calendar-clear-btn {
+            margin-top: 0;
+        }
+        input[type="text"],
+        .s3-upload-widget {
+            font-size: 0.8rem;
+            max-width: 14rem;
+            &.datetimepicker {
+                width: rem-calc(120) !important;
+                &.hide-time {
+                    width: rem-calc(80) !important;
+                }
+            }
+        }
+        input.string,
+        textarea  {
+            width: auto;
+        }
+        input.integer {
+            max-width: 10rem;
+        }
+        textarea {
+            font-size: 0.8rem;
+        }
+        &.single td:only-child {
+            padding: 0;
+            div.form-row {
+                padding: 0 0.2rem 0.2rem;
+            }
+        }
+        select {
+            max-width: 18rem;
+        }
+        .s3_inline_add_resource_link {
+            padding: 0.1rem;
+        }
+    }
+    tr.inline-form,
+    tr.read-row {
+        .zoom img {
+            max-height: 8rem;
+        }
+        td {
+            font-size: 0.8rem;
+            max-width: 21rem;
+            white-space: pre-line;
+        }
+    }
+}
+
+.inline-add,
+.inline-dsc,
+.inline-cnc,
+.inline-edt,
+.inline-rdy,
+.inline-rmv {
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 23px;
+    width: 23px;
+}
+.inline-add {
+    background-image: url(../../img/crud/add.png);
+}
+.inline-dsc {
+    background-image: url(../../img/crud/cancel.png);
+}
+.inline-cnc {
+    background-image: url(../../img/crud/cancel.png);
+}
+.inline-edt {
+    background-image: url(../../img/crud/edit.png);
+}
+.inline-rdy {
+    background-image: url(../../img/crud/apply.png);
+}
+.inline-rmv {
+    background-image: url(../../img/crud/remove.png);
+}
+
+// ----------------------------------------------------------------------------
+// Containers
+//
+.form-info {
+    height: 1.2rem;
+}
+
+.form-container,
+.item-container {
+    width: auto;
+    overflow: inherit;
+    form {
+        border: 1px solid #E0E0E0;
+        td.w2p_fl {
+            font-weight: bold;
+        }
+        tr td {
+            padding: 3px 0 0 3px;
+        }
+        background: $form_container_bgcolor;
+        padding: 0.35rem 0.7rem;
+        tr td {
+            padding: rem-calc(3);
+        }
+    }
+    .controls {
+        display: inline-block;
+        min-height: 1.7rem;
+        &:not(.columns) {
+            max-width: 100%;
+        }
+        padding: 0 0.1rem;
+    }
+    .no-options-available {
+        color: #aaa;
+        font-style: italic;
+        [dir=ltr] & {
+            padding-left: 0.7rem;
+        }
+        [dir=rtl] & {
+            padding-right: 0.7rem;
+        }
+    }
+}
+
+.form-container {
+    margin-top: 0.125rem;
+    margin-bottom: 0.875rem;
+    p {
+        margin: 0.5em 0 0 0;
+    }
+    form {
+        p {
+            margin: 0;
+            &.note {
+                font-style: italic;
+                margin-left: 18em;
+                font-size: 80%;
+                color: #666;
+            }
+        }
+        input.date {
+            width: auto;
+        }
+        input[type="checkbox"],
+        input[type="radio"] {
+            margin: 5px 5px;
+        }
+        fieldset {
+            margin: 0 0 10px 0;
+            padding: 10px;
+            border: #ddd 1px solid;
+            background-color: #fff;
+        }
+        legend {
+            font-weight: bold;
+            color: #666;
+        }
+        textarea {
+            width: 28rem;
+        }
+        .ui-multiselect {
+            max-width: 100%;
+            display: inline-block!important;
+            font-size: 0.8rem;
+            line-height: 1.5;
+            margin-right: 0.3rem;
+            margin-bottom: 0;
+        }
+        &:not(.filter-form):not(.auth_login):not(.auth_register):not(.rm-form) {
+            input[type="text"]:not(.integer):not(.double):not(.datetimepicker):not(.date):not(.hours):not(.dms-input) {
+                width: 20rem !important;
+            }
+        }
+    }
+}
+
+.item-container {
+    margin: 0 0 0.5rem;
+    .controls {
+        background: $item_container_controls_bgcolor;
+        padding: 0.3rem;
+    }
+}
+
+// ----------------------------------------------------------------------------
+// Author Info / Last Update / Mark Duplicate
+//
+#last_update,
+#markDuplicate {
+    float: right;
+    clear: right;
+    text-align: right;
+    [dir=rtl] & {
+        float: left;
+        clear: left;
+        text-align: left;
+    }
+}
+.authorinfo,
+#last_update {
+    font-style: italic;
+    font-size: 80%;
+    color: #666;
+}
+#markDuplicate {
+    padding-bottom: 8px;
+    margin-bottom: 0;
+    margin-top: -0.25rem;
+}
+
+.crud-actions {
+    margin-bottom: 0.25rem;
+}
+
+// ----------------------------------------------------------------------------
+// Tooltip Icon
+//
+.s3_add_resource_link {
+    display: inline-block;
+    margin: 0.3rem 0.5rem;
+}
+.inline-tooltip {
+    vertical-align: top;
+    margin: 0.2rem 0.5rem;
+}
+.tooltip,
+.tooltipbody,
+.stickytip,
+.ajaxtip,
+.htmltip {
+    display: inline-block;
+    position: static;
+    text-transform: uppercase;
+    width: auto;
+    background: none;
+    &:before {
+        content: "\f29c";
+        color: #AAA;
+        font: normal normal normal 14px/1 FontAwesome;
+        font-size: 1.2rem;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+    &:hover {
+        cursor: help;
+        &:before {
+            color: $warning-color;
+        }
+    }
+}
+
+// ----------------------------------------------------------------------------
+// Bulk Action Dialogs
+//
+.bulk-action-form {
+
+    padding: 0.5rem;
+    .bulk-action-info {
+        font-size: 0.8rem;
+        font-weight: bold;
+    }
+    .bulk-action-question {
+        font-size: 0.8rem;
+        font-weight: bold;
+        border-top: 1px solid #eee;
+        padding-top: 0.5rem;
+    }
+    label {
+        font-size: 0.825rem;
+    }
+    .label-above {
+        font-weight: bold;
+        select {
+            display: block;
+            margin-bottom: 1rem;
+            min-width: 12rem;
+        }
+    }
+    .bulk-action-buttons {
+        button, a.cancel-form-btn {
+            margin-bottom: 0
+        }
+    }
+}
+
+// END ========================================================================
