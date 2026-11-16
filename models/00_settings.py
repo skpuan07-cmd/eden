@@ -115,6 +115,8 @@ if language.find("-") == -1:
         s3.language = "vn"
     elif language == "el":
         s3.language = "el_GR"
+    elif language == "th":
+        s3.language = "th_TH"
     else:
         s3.language = language
 else:
