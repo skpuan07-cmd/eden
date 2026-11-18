@@ -1,0 +1,43 @@
+{{extend 'layout.html'}}
+{{block section_class}}section-width-1{{end}}
+
+<h1>{{=response.title}}</h1>
+
+<p>{{=T("30-day forecasts using Facebook Prophet. Select a metric below and click 'Generate Forecast' — results will appear in the chart.")}}</p>
+
+<div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+  <h3>{{=T("Available Forecasts")}}</h3>
+  <table style="width: 100%; border-collapse: collapse;">
+    <thead>
+      <tr style="background: #3498db; color: white;">
+        <th style="padding: 10px; text-align: left;">{{=T("Metric")}}</th>
+        <th style="padding: 10px; text-align: left;">{{=T("Source Table")}}</th>
+        <th style="padding: 10px; text-align: center;">{{=T("Action")}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="background: white; border-bottom: 1px solid #eee;">
+        <td style="padding: 10px;">📊 {{=T("Auth Events")}}</td>
+        <td style="padding: 10px;"><code>auth_event</code></td>
+        <td style="padding: 10px; text-align: center;">
+          <a href="{{=URL('ai_analytics','run', args='auth_events')}}" class="btn" style="background: #27ae60; color: white; padding: 6px 14px; text-decoration: none; border-radius: 4px;">
+            {{=T("Generate Forecast")}}
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div style="margin-top: 24px;">
+  <h3>{{=T("Latest Forecast")}}</h3>
+  <div style="background: white; border: 1px solid #e0e0e0; border-radius: 8px; padding: 16px;">
+    <p style="color: #888; font-size: 13px;">{{=T("Click 'Generate Forecast' above. Then visit")}} <a href="{{=URL('ai_analytics','forecast', args='auth_events')}}">/eden/ai_analytics/forecast/auth_events</a> {{=T("to view the chart.")}}</p>
+  </div>
+</div>
+
+<div style="margin-top: 24px; padding: 12px; background: #fff3cd; border-radius: 6px;">
+  <p style="margin: 0; font-size: 13px;">
+    <strong>{{=T("Note")}}:</strong> {{=T("Requires the 'prophet' Python package (already installed). Forecasting takes ~30 seconds for the first run.")}}
+  </p>
+</div>

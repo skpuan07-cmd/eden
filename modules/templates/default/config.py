@@ -1342,6 +1342,12 @@ def config(settings):
             #description = "Manages statistics",
             module_type = None,
         )),
+        # AI Assistant module — landing page linking to all 9 AI controllers
+        ("ai", Storage(
+            name_nice = T("AI Assistant"),
+            #description = "AI-powered features: chatbot, OCR, analytics, imagery, translation, NLQ, voice, moderation",
+            module_type = 7,    # 7th item in the menu (top-level, after gis)
+        )),
         #("event", Storage(
         #    name_nice = T("Events"),
         #    #description = "Activate Events (e.g. from Scenario templates) for allocation of appropriate Resources (Human, Assets & Facilities).",

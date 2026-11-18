@@ -1,0 +1,42 @@
+{{extend 'layout.html'}}
+{{block section_class}}section-width-1{{end}}
+
+<h1>{{=response.title}}</h1>
+
+<p>{{=T("AI-powered features to support disaster management operations. Select a feature below to get started.")}}</p>
+
+<div class="ai-feature-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; margin-top: 24px;">
+
+{{for f in features:}}
+<div class="ai-feature-card" style="border: 1px solid #e0e0e0; border-radius: 8px; padding: 20px; background: #fff; transition: box-shadow 0.2s;">
+  <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+    <span style="font-size: 32px; line-height: 1;">{{=f.icon}}</span>
+    <div style="flex: 1;">
+      <h3 style="margin: 0; color: #2c3e50;">
+        <a href="{{=f.url}}" style="text-decoration: none; color: inherit;">{{=f.name}}</a>
+      </h3>
+      <div style="font-size: 11px; color: #888; margin-top: 2px;">
+        {{=T("Use Case")}} {{=f.use_case}}
+        {{if f.auth == 'admin':}}
+          <span style="margin-left: 8px; padding: 1px 6px; background: #fff3cd; border-radius: 3px; color: #856404; font-size: 10px;">ADMIN</span>
+        {{else:}}
+          <span style="margin-left: 8px; padding: 1px 6px; background: #d4edda; border-radius: 3px; color: #155724; font-size: 10px;">PUBLIC</span>
+        {{pass}}
+      </div>
+    </div>
+  </div>
+  <p style="margin: 0; color: #555; font-size: 13px; line-height: 1.5;">{{=f.desc}}</p>
+  <a href="{{=f.url}}" class="btn btn-primary" style="margin-top: 12px; display: inline-block; padding: 6px 14px; background: #3498db; color: white; text-decoration: none; border-radius: 4px; font-size: 13px;">
+    {{=T("Open")}} →
+  </a>
+</div>
+{{pass}}
+
+</div>
+
+<div style="margin-top: 32px; padding: 16px; background: #f8f9fa; border-radius: 6px;">
+  <h4 style="margin-top: 0;">{{=T("About the AI modules")}}</h4>
+  <p style="font-size: 13px; color: #555;">
+    {{=T("These AI features are powered by the z-ai-web-dev-sdk (glm-4-plus model) and integrate with Sahana Eden's data tables. All features are PDPA-compliant: chatbot and OCR require user consent before processing. Admin-only features require ADMIN role.")}}
+  </p>
+</div>

@@ -1,0 +1,89 @@
+{{extend 'layout.html'}}
+{{block section_class}}section-width-1{{end}}
+
+<h1>{{=response.title}}</h1>
+
+<p>{{=T("Voice interface for field operations. Transcribe audio to text, convert text to speech, or run a full voice command loop.")}}</p>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 20px; margin-top: 20px;">
+
+  <!-- TTS: Text to Speech -->
+  <div style="background: #f8f9fa; padding: 20px; border-radius: 8px;">
+    <h3>🔊 {{=T("Text to Speech")}}</h3>
+    <p style="font-size: 13px; color: #555;">{{=T("Enter Thai or English text. Get back an audio file you can play/download.")}}</p>
+    <form id="tts-form" style="margin-top: 12px;">
+      <textarea id="tts-text" rows="3" placeholder="{{=T('พิมพ์ข้อความที่ต้องการให้พูด...')}}" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;"></textarea>
+      <button type="submit" style="margin-top: 8px; padding: 8px 16px; background: #3498db; color: white; border: none; border-radius: 4px; cursor: pointer;">
+        {{=T("Generate Audio")}}
+      </button>
+    </form>
+    <div id="tts-result" style="margin-top: 12px; display: none;"></div>
+  </div>
+
+  <!-- ASR: Speech to Text -->
+  <div style="background: #f8f9fa; padding: 20px; border-radius: 8px;">
+    <h3>🎤 {{=T("Speech to Text")}}</h3>
+    <p style="font-size: 13px; color: #555;">{{=T("Upload an audio file (WAV/MP3). AI transcribes it to text.")}}</p>
+    <form id="asr-form" enctype="multipart/form-data" style="margin-top: 12px;">
+      <input type="file" name="file" accept="audio/*" required style="width: 100%;">
+      <button type="submit" style="margin-top: 8px; padding: 8px 16px; background: #3498db; color: white; border: none; border-radius: 4px; cursor: pointer;">
+        {{=T("Transcribe")}}
+      </button>
+    </form>
+    <div id="asr-result" style="margin-top: 12px; display: none;"></div>
+  </div>
+
+</div>
+
+<div style="margin-top: 24px; padding: 16px; background: #fff3cd; border-radius: 6px;">
+  <h4 style="margin: 0 0 8px 0;">{{=T("Voice Command Loop")}}</h4>
+  <p style="margin: 0; font-size: 13px;">
+    {{=T("For the full voice loop (audio → transcript → intent → reply audio), use the")}}
+    <code>POST /eden/ai_voice/command</code> {{=T("endpoint (see API docs).")}}
+  </p>
+</div>
+
+<script>
+document.getElementById('tts-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const text = document.getElementById('tts-text').value.trim();
+  if (!text) return;
+  const resultDiv = document.getElementById('tts-result');
+  resultDiv.style.display = 'block';
+  resultDiv.innerHTML = '<em>{{=T("Generating audio... (5-15 seconds)")}}</em>';
+  try {
+    const resp = await fetch('{{=URL("ai_voice","speak")}}', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: 'text=' + encodeURIComponent(text)
+    });
+    const data = await resp.json();
+    if (data.error) {
+      resultDiv.innerHTML = '⚠️ ' + data.error;
+    } else {
+      resultDiv.innerHTML = '<audio controls src="' + data.audio_url + '" style="width: 100%;"></audio><br><a href="' + data.audio_url + '" download>{{=T("Download")}}</a>';
+    }
+  } catch (err) {
+    resultDiv.innerHTML = '⚠️ ' + err.message;
+  }
+});
+
+document.getElementById('asr-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const formData = new FormData(this);
+  const resultDiv = document.getElementById('asr-result');
+  resultDiv.style.display = 'block';
+  resultDiv.innerHTML = '<em>{{=T("Transcribing... (10-30 seconds)")}}</em>';
+  try {
+    const resp = await fetch('{{=URL("ai_voice","transcribe")}}', {method: 'POST', body: formData});
+    const data = await resp.json();
+    if (data.error) {
+      resultDiv.innerHTML = '⚠️ ' + data.error;
+    } else {
+      resultDiv.innerHTML = '<strong>{{=T("Transcript")}}:</strong><br>' + (data.transcript || '(empty)');
+    }
+  } catch (err) {
+    resultDiv.innerHTML = '⚠️ ' + err.message;
+  }
+});
+</script>

@@ -1,0 +1,84 @@
+{{extend 'layout.html'}}
+{{block section_class}}section-width-1{{end}}
+
+<h1>{{=response.title}}</h1>
+
+<p>{{=T("Auto-moderate user-submitted content. AI checks for hate, harassment, self-harm, sexual content, violence, spam, misinformation, and PDPA violations (Thai ID numbers, phone numbers).")}}</p>
+
+<div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 20px;">
+  <h3>🛡️ {{=T("Check Content")}}</h3>
+  <p style="font-size: 13px; color: #555;">{{=T("Paste text to analyze. The AI will return category scores and an auto-action recommendation.")}}</p>
+  <form id="mod-form" style="margin-top: 12px;">
+    <textarea id="mod-text" rows="5" placeholder="{{=T('วางเนื้อหาที่ต้องการตรวจสอบที่นี่...')}}" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;"></textarea>
+    <button type="submit" style="margin-top: 8px; padding: 8px 16px; background: #3498db; color: white; border: none; border-radius: 4px; cursor: pointer;">
+      {{=T("Moderate")}} 🛡️
+    </button>
+  </form>
+</div>
+
+<div id="mod-result" style="margin-top: 20px; display: none;">
+  <div id="mod-action" style="padding: 12px; border-radius: 6px; margin-bottom: 12px; font-weight: 600;"></div>
+  <div id="mod-categories" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;"></div>
+  <details>
+    <summary style="cursor: pointer; color: #666; font-size: 13px;">{{=T("Show full result")}}</summary>
+    <pre id="mod-json" style="background: #1e1e1e; color: #d4d4d4; padding: 12px; border-radius: 6px; overflow-x: auto; max-height: 300px; font-size: 12px;"></pre>
+  </details>
+</div>
+
+<div style="margin-top: 24px; padding: 16px; background: #fff3cd; border-radius: 6px;">
+  <h4 style="margin: 0 0 8px 0;">{{=T("Try these test inputs")}}</h4>
+  <ul style="margin: 0; padding-left: 20px; font-size: 13px;">
+    <li>{{=T("PDPA violation")}}: <code>บุคคลนี้มีเลขบัตร 1-2345-67890-12-3 โทร 081-234-5678</code></li>
+    <li>{{=T("Hate speech")}}: <code>I hate all people from that country, they should be killed</code></li>
+    <li>{{=T("Safe content")}}: <code>ศูนย์พักพิงเปิดให้บริการที่อำเภอเมือง จังหวัดเชียงราย</code></li>
+  </ul>
+</div>
+
+<script>
+document.getElementById('mod-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const text = document.getElementById('mod-text').value.trim();
+  if (!text) return;
+  const resultDiv = document.getElementById('mod-result');
+  const actionDiv = document.getElementById('mod-action');
+  const catDiv = document.getElementById('mod-categories');
+  const jsonPre = document.getElementById('mod-json');
+  resultDiv.style.display = 'block';
+  actionDiv.innerHTML = '<em>{{=T("Analyzing... (5-15 seconds)")}}</em>';
+  catDiv.innerHTML = '';
+  jsonPre.textContent = '';
+  try {
+    const resp = await fetch('{{=URL("ai_moderation","check")}}', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: 'text=' + encodeURIComponent(text) + '&source_table=manual&source_id=0'
+    });
+    const data = await resp.json();
+    if (data.error) {
+      actionDiv.innerHTML = '⚠️ ' + data.error;
+    } else {
+      const action = data.auto_action;
+      const colors = {published: '#d4edda', flagged: '#fff3cd', blocked: '#f8d7da'};
+      const colorText = {published: '#155724', flagged: '#856404', blocked: '#721c24'};
+      actionDiv.style.background = colors[action] || '#eee';
+      actionDiv.style.color = colorText[action] || '#333';
+      actionDiv.innerHTML = 'Action: <strong>' + action.toUpperCase() + '</strong>';
+      const result = data.result || {};
+      const cats = result.categories || {};
+      const scores = result.scores || {};
+      for (const cat in cats) {
+        if (cats[cat]) {
+          const score = scores[cat] || 0;
+          const chip = document.createElement('span');
+          chip.style.cssText = 'background:' + (score > 0.7 ? '#dc3545' : score > 0.4 ? '#ffc107' : '#28a745') + '; color: white; padding: 4px 10px; border-radius: 12px; font-size: 12px;';
+          chip.textContent = cat + ' (' + (score * 100).toFixed(0) + '%)';
+          catDiv.appendChild(chip);
+        }
+      }
+      jsonPre.textContent = JSON.stringify(data, null, 2);
+    }
+  } catch (err) {
+    actionDiv.innerHTML = '⚠️ ' + err.message;
+  }
+});
+</script>

@@ -217,6 +217,10 @@ if sender:
 # -----------------------------------------------------------------------------
 # Session
 #
+# Use secure session cookie over HTTPs
+if request.is_https:
+    session.secure()
+
 # Custom Notifications
 response.error = session.error
 response.confirmation = session.confirmation
