@@ -1,0 +1,113 @@
+{{extend 'layout.html'}}
+{{block section_class}}section-width-1{{end}}
+
+<h1>{{=response.title}}</h1>
+
+<p>{{=T("Upload an image of a document (ID card, invoice, shelter form, victim report). The system will use")}} <strong>OpenThai 2.1</strong> {{=T("as the primary OCR engine (specialized for Thai text) with vision LLM as fallback.")}}</p>
+
+<div style="background: {{=('#d4edda' if openthai_available else '#fff3cd')}}; padding: 12px; border-radius: 6px; margin-bottom: 16px;">
+  {{if openthai_available:}}
+    <strong>✅ OpenThai 2.1:</strong> {{=T("Available (IAPP_API_KEY is set)")}}
+    <span style="margin-left: 8px; padding: 2px 8px; background: #27ae60; color: white; border-radius: 3px; font-size: 11px;">DEFAULT ENGINE</span>
+  {{else:}}
+    <strong>⚠️ OpenThai 2.1:</strong> {{=T("Not configured (IAPP_API_KEY env var not set)")}}
+    <br>
+    <span style="font-size: 13px; color: #856404;">
+      {{=T("Get an API key from")}} <a href="https://iapp.co.th/" target="_blank">iapp.co.th</a>
+      {{=T("then set")}} <code>export IAPP_API_KEY=your_key</code>
+      {{=T("and restart web2py.")}}
+    </span>
+    <br>
+    <span style="font-size: 13px;">
+      {{=T("Currently using")}} <strong>vision LLM (glm-5.3-flash)</strong> {{=T("as fallback")}}
+    </span>
+  {{pass}}
+</div>
+
+<div style="background: #f8f9fa; padding: 20px; border-radius: 8px;">
+  <h3>{{=T("Select document type and upload image")}}</h3>
+  <form id="ocr-form" enctype="multipart/form-data" method="POST" action="{{=URL('ai_ocr','extract')}}">
+    <div style="margin-bottom: 12px;">
+      <label><strong>{{=T("Document type")}}:</strong></label>
+      <select name="document_type" id="doc_type" style="margin-left: 8px; padding: 6px;">
+        <option value="id_card">{{=T("ID Card (บัตรประชาชน) — best with OpenThai")}}</option>
+        <option value="invoice">{{=T("Invoice (ใบเบิกวัสดุ)")}}</option>
+        <option value="shelter_form">{{=T("Shelter Registration Form")}}</option>
+        <option value="victim_report">{{=T("Disaster Victim Report")}}</option>
+      </select>
+    </div>
+    <div style="margin-bottom: 12px;">
+      <label><strong>{{=T("OCR Engine")}}:</strong></label>
+      <select name="engine" id="engine" style="margin-left: 8px; padding: 6px;">
+        <option value="auto" selected>{{=T("Auto (use OpenThai if available, else vision LLM)")}}</option>
+        {{if openthai_available:}}
+        <option value="openthai">OpenThai 2.1 ({{=T("Thai-tuned, recommended")}})</option>
+        {{pass}}
+        <option value="vision_llm">{{=T("Vision LLM (glm-5.3-flash, fallback)")}}</option>
+      </select>
+    </div>
+    <div style="margin-bottom: 12px;">
+      <label><strong>{{=T("Image file")}}:</strong></label>
+      <input type="file" name="file" accept="image/*" required style="margin-left: 8px;">
+    </div>
+    <div style="margin-bottom: 12px; background: #fff3cd; padding: 10px; border-radius: 4px;">
+      <label>
+        <input type="checkbox" name="consent" value="yes" required>
+        <strong>{{=T("PDPA Consent")}}:</strong> {{=T("I consent to AI processing this image which may contain personal data.")}}
+      </label>
+    </div>
+    <button type="submit" class="btn btn-primary" style="padding: 8px 20px; background: #3498db; color: white; border: none; border-radius: 4px; cursor: pointer;">
+      {{=T("Extract Data")}} 📷
+    </button>
+  </form>
+</div>
+
+<div id="ocr-result" style="margin-top: 20px; display: none;">
+  <div id="ocr-engine-badge" style="margin-bottom: 12px;"></div>
+  <h3>{{=T("Extracted Data")}}</h3>
+  <pre id="ocr-json" style="background: #1e1e1e; color: #d4d4d4; padding: 16px; border-radius: 6px; overflow-x: auto; max-height: 400px;"></pre>
+</div>
+
+<script>
+document.getElementById('ocr-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const formData = new FormData(this);
+  const resultDiv = document.getElementById('ocr-result');
+  const jsonPre = document.getElementById('ocr-json');
+  const badge = document.getElementById('ocr-engine-badge');
+  resultDiv.style.display = 'block';
+  jsonPre.textContent = '{{=T("Processing... (OpenThai: 2-5s, Vision LLM: 10-30s)")}}';
+  badge.textContent = '';
+  try {
+    const resp = await fetch('{{=URL("ai_ocr","extract")}}', {method: 'POST', body: formData});
+    const data = await resp.json();
+    if (data.error) {
+      jsonPre.textContent = '⚠️ ' + data.error;
+    } else {
+      // Engine badge
+      const engine = data.engine || 'unknown';
+      const engineColors = {
+        openthai: '#27ae60', openthai_failed: '#c0392b',
+        vision_llm: '#3498db', vision_llm_failed: '#c0392b',
+      };
+      badge.innerHTML = '<span style="padding: 4px 10px; background: ' + (engineColors[engine] || '#888') + '; color: white; border-radius: 4px; font-size: 12px;">Engine: ' + engine + '</span>';
+      jsonPre.textContent = JSON.stringify(data.extracted_data || data, null, 2);
+    }
+  } catch (err) {
+    jsonPre.textContent = '⚠️ ' + err.message;
+  }
+});
+</script>
+
+<div style="margin-top: 24px; padding: 12px; background: #e7f3ff; border-radius: 6px;">
+  <h4 style="margin: 0 0 8px 0;">{{=T("About OpenThai 2.1")}}</h4>
+  <p style="margin: 0; font-size: 13px; color: #555;">
+    {{=T("OpenThai 2.1 is a Thai-specific OCR model by")}} <a href="https://iapp.co.th/" target="_blank">iApp Technology Co., Ltd.</a>
+    {{=T("It is purpose-built for Thai text — including the Thai national ID card format, Thai receipts, and Thai handwriting.")}}
+    {{=T("For ID cards, it returns structured fields directly (name, ID number, address, etc.). For other documents, it returns raw text which the LLM then structures into JSON.")}}
+  </p>
+  <p style="margin: 12px 0 0 0; font-size: 13px;">
+    <strong>{{=T("Configuration")}}:</strong>
+    <code>export IAPP_API_KEY=your_key</code> {{=T("then restart web2py")}}
+  </p>
+</div>

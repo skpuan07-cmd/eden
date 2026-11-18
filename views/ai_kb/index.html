@@ -1,0 +1,38 @@
+{{extend 'layout.html'}}
+{{block section_class}}section-width-1{{end}}
+
+<h1>{{=response.title}}</h1>
+
+<p>{{=T("Manage the RAG knowledge base used by the AI Chatbot. Ingest content from CMS posts or external URLs, browse indexed chunks, and delete outdated ones.")}}</p>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-top: 20px;">
+  <div style="background: #e7f3ff; padding: 20px; border-radius: 8px;">
+    <h3 style="margin: 0 0 8px 0;">📚 {{=T("Ingest CMS Posts")}}</h3>
+    <p style="font-size: 13px; color: #555; margin: 0 0 12px 0;">{{=T("Index all public CMS posts as knowledge chunks.")}}</p>
+    <a href="{{=URL('ai_kb','ingest_cms_posts')}}" class="btn" style="background: #3498db; color: white; padding: 8px 16px; text-decoration: none; border-radius: 4px;">
+      {{=T("Ingest Now")}} →
+    </a>
+  </div>
+  <div style="background: #e7f3ff; padding: 20px; border-radius: 8px;">
+    <h3 style="margin: 0 0 8px 0;">🌐 {{=T("Ingest External URL")}}</h3>
+    <p style="font-size: 13px; color: #555; margin: 0 0 12px 0;">{{=T("Fetch a web page and index its content.")}}</p>
+    <form action="{{=URL('ai_kb','ingest_url')}}" method="POST" style="display: flex; gap: 4px;">
+      <input type="url" name="url" placeholder="https://example.com/page" required style="flex: 1; padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
+      <button type="submit" style="background: #3498db; color: white; border: none; border-radius: 4px; padding: 6px 12px; cursor: pointer;">{{=T("Fetch")}}</button>
+    </form>
+  </div>
+  <div style="background: #e7f3ff; padding: 20px; border-radius: 8px;">
+    <h3 style="margin: 0 0 8px 0;">📋 {{=T("Browse Chunks")}}</h3>
+    <p style="font-size: 13px; color: #555; margin: 0 0 12px 0;">{{=T("View, edit, or delete indexed knowledge chunks.")}}</p>
+    <a href="{{=URL('ai_kb','list_chunks')}}" class="btn" style="background: #27ae60; color: white; padding: 8px 16px; text-decoration: none; border-radius: 4px;">
+      {{=T("Browse")}} →
+    </a>
+  </div>
+</div>
+
+<div style="margin-top: 24px;">
+  <h3>{{=T("Knowledge Base Stats")}}</h3>
+  <p style="font-size: 13px; color: #555;">
+    {{=T("Visit")}} <a href="{{=URL('ai_kb','list_chunks')}}">{{=URL('ai_kb','list_chunks')}}</a> {{=T("to see all indexed chunks.")}}
+  </p>
+</div>

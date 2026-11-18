@@ -27,3 +27,40 @@
   </div>
  </div>
 </div>
+
+{{AUTHENTICATED = auth.get_system_roles().AUTHENTICATED}}
+{{if AUTHENTICATED in session.s3.roles:}}
+<!-- AI Assistant panel on home page -->
+<div class='row' style='margin-top:30px; margin-bottom:30px;'>
+ <div class='small-12 columns'>
+  <div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px; padding: 24px; color: white; box-shadow: 0 4px 12px rgba(0,0,0,0.15);'>
+   <div style='display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;'>
+    <div style='flex: 1; min-width: 280px;'>
+     <div style='display: flex; align-items: center; gap: 12px; margin-bottom: 8px;'>
+      <span style='font-size: 36px;'>🤖</span>
+      <h2 style='margin: 0; color: white; font-size: 24px;'>AI Assistant</h2>
+     </div>
+     <p style='margin: 0; color: rgba(255,255,255,0.9); font-size: 14px; line-height: 1.5;'>
+      ผู้ช่วย AI สำหรับจัดการภัยพิบัติ — ถาม-ตอบ, OCR เอกสาร, พยากรณ์, วิเคราะห์ภาพ, แปลภาษา, สั่งด้วยเสียง และตรวจสอบเนื้อหา
+     </p>
+    </div>
+    <a href='/eden/ai/' style='display: inline-block; padding: 12px 24px; background: white; color: #667eea; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 15px; white-space: nowrap;'>
+     เปิดใช้งาน AI →
+    </a>
+   </div>
+   <!-- Quick links to popular AI features -->
+   <div style='display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px;'>
+    <a href='/eden/ai_chat/' style='background: rgba(255,255,255,0.2); color: white; padding: 6px 14px; border-radius: 4px; text-decoration: none; font-size: 13px;'>💬 Chatbot</a>
+    <a href='/eden/ai_ocr/' style='background: rgba(255,255,255,0.2); color: white; padding: 6px 14px; border-radius: 4px; text-decoration: none; font-size: 13px;'>📷 OCR</a>
+    <a href='/eden/ai_analytics/' style='background: rgba(255,255,255,0.2); color: white; padding: 6px 14px; border-radius: 4px; text-decoration: none; font-size: 13px;'>📊 Analytics</a>
+    <a href='/eden/ai_imagery/' style='background: rgba(255,255,255,0.2); color: white; padding: 6px 14px; border-radius: 4px; text-decoration: none; font-size: 13px;'>🛰 Imagery</a>
+    <a href='/eden/ai_voice/' style='background: rgba(255,255,255,0.2); color: white; padding: 6px 14px; border-radius: 4px; text-decoration: none; font-size: 13px;'>🎤 Voice</a>
+    <a href='/eden/ai_query/' style='background: rgba(255,255,255,0.2); color: white; padding: 6px 14px; border-radius: 4px; text-decoration: none; font-size: 13px;'>🔍 Query</a>
+    <a href='/eden/ai_translate/' style='background: rgba(255,255,255,0.2); color: white; padding: 6px 14px; border-radius: 4px; text-decoration: none; font-size: 13px;'>🌐 Translate</a>
+    <a href='/eden/ai_kb/' style='background: rgba(255,255,255,0.2); color: white; padding: 6px 14px; border-radius: 4px; text-decoration: none; font-size: 13px;'>📚 Knowledge</a>
+    <a href='/eden/ai_moderation/' style='background: rgba(255,255,255,0.2); color: white; padding: 6px 14px; border-radius: 4px; text-decoration: none; font-size: 13px;'>🛡 Moderation</a>
+   </div>
+  </div>
+ </div>
+</div>
+{{pass}}

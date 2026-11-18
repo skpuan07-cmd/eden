@@ -1,0 +1,37 @@
+{{extend 'layout.html'}}
+{{block section_class}}section-width-1{{end}}
+
+<h1>{{=response.title}}</h1>
+
+<p>{{=T("Auto-translate Sahana Eden UI strings from English to other languages using LLM. Strings go into a review queue before being applied.")}}</p>
+
+<div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 20px;">
+  <h3>{{=T("Step 1: View Missing Translations")}}</h3>
+  <p>{{=T("Select a target language to see strings that are missing or untranslated.")}}</p>
+  <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px;">
+    <a href="{{=URL('ai_translate','missing', args='th')}}" class="btn" style="background: #3498db; color: white; padding: 8px 16px; text-decoration: none; border-radius: 4px;">🇹🇭 Thai (th)</a>
+    <a href="{{=URL('ai_translate','missing', args='vi')}}" class="btn" style="background: #3498db; color: white; padding: 8px 16px; text-decoration: none; border-radius: 4px;">🇻🇳 Vietnamese (vi)</a>
+    <a href="{{=URL('ai_translate','missing', args='km')}}" class="btn" style="background: #3498db; color: white; padding: 8px 16px; text-decoration: none; border-radius: 4px;">🇰🇭 Khmer (km)</a>
+    <a href="{{=URL('ai_translate','missing', args='lo')}}" class="btn" style="background: #3498db; color: white; padding: 8px 16px; text-decoration: none; border-radius: 4px;">🇱🇦 Lao (lo)</a>
+    <a href="{{=URL('ai_translate','missing', args='my')}}" class="btn" style="background: #3498db; color: white; padding: 8px 16px; text-decoration: none; border-radius: 4px;">🇲🇲 Burmese (my)</a>
+    <a href="{{=URL('ai_translate','missing', args='id')}}" class="btn" style="background: #3498db; color: white; padding: 8px 16px; text-decoration: none; border-radius: 4px;">🇮🇩 Indonesian (id)</a>
+    <a href="{{=URL('ai_translate','missing', args='zh-cn')}}" class="btn" style="background: #3498db; color: white; padding: 8px 16px; text-decoration: none; border-radius: 4px;">🇨🇳 Chinese (zh-cn)</a>
+    <a href="{{=URL('ai_translate','missing', args='ja')}}" class="btn" style="background: #3498db; color: white; padding: 8px 16px; text-decoration: none; border-radius: 4px;">🇯🇵 Japanese (ja)</a>
+  </div>
+</div>
+
+<div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 20px;">
+  <h3>{{=T("Step 2: Review Pending Translations")}}</h3>
+  <p>{{=T("After batch translating, review and approve strings before applying them to language files.")}}</p>
+  <a href="{{=URL('ai_translate','review', vars={'lang':'th'})}}" class="btn" style="background: #27ae60; color: white; padding: 8px 16px; text-decoration: none; border-radius: 4px;">
+    {{=T("Review Thai translations")}} →
+  </a>
+</div>
+
+<div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 20px;">
+  <h3>{{=T("Step 3: Apply Approved Translations")}}</h3>
+  <p>{{=T("Write approved translations back to the languages/<lang>.py file.")}}</p>
+  <a href="{{=URL('ai_translate','apply_approved', vars={'lang':'th'})}}" class="btn" style="background: #e67e22; color: white; padding: 8px 16px; text-decoration: none; border-radius: 4px;">
+    {{=T("Apply approved Thai translations")}} →
+  </a>
+</div>

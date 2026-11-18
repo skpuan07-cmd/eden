@@ -1,0 +1,67 @@
+{{extend 'layout.html'}}
+{{block section_class}}section-width-1{{end}}
+
+<h1>{{=response.title}}</h1>
+
+<p>{{=T("Upload a satellite, drone, or field photo. Select analysis type — AI will detect flood extent, building damage, road passability, or general scene tags.")}}</p>
+
+<div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 20px;">
+  <h3>{{=T("Upload Image for Analysis")}}</h3>
+  <form id="imagery-form" enctype="multipart/form-data" method="POST" action="{{=URL('ai_imagery','analyze')}}">
+    <div style="margin-bottom: 12px;">
+      <label><strong>{{=T("Imagery type")}}:</strong></label>
+      <select name="imagery_type" style="margin-left: 8px; padding: 6px;">
+        <option value="satellite">{{=T("Satellite imagery")}}</option>
+        <option value="drone">{{=T("Drone photo")}}</option>
+        <option value="field_photo" selected>{{=T("Field photo")}}</option>
+      </select>
+    </div>
+    <div style="margin-bottom: 12px;">
+      <label><strong>{{=T("Analysis type")}}:</strong></label>
+      <select name="analysis_type" style="margin-left: 8px; padding: 6px;">
+        <option value="flood_extent">{{=T("Flood Extent Detection")}}</option>
+        <option value="building_damage">{{=T("Building Damage Assessment")}}</option>
+        <option value="road_passability">{{=T("Road Passability Check")}}</option>
+        <option value="general" selected>{{=T("General Scene Analysis")}}</option>
+      </select>
+    </div>
+    <div style="margin-bottom: 12px;">
+      <label><strong>{{=T("Image file")}}:</strong></label>
+      <input type="file" name="file" accept="image/*" required style="margin-left: 8px;">
+    </div>
+    <button type="submit" class="btn btn-primary" style="padding: 8px 20px; background: #3498db; color: white; border: none; border-radius: 4px; cursor: pointer;">
+      {{=T("Analyze Image")}} 🛰️
+    </button>
+  </form>
+</div>
+
+<div id="imagery-result" style="margin-top: 20px; display: none;">
+  <h3>{{=T("Analysis Result")}}</h3>
+  <div id="imagery-summary" style="background: #e7f3ff; padding: 12px; border-radius: 6px; margin-bottom: 12px;"></div>
+  <pre id="imagery-json" style="background: #1e1e1e; color: #d4d4d4; padding: 16px; border-radius: 6px; overflow-x: auto; max-height: 400px;"></pre>
+</div>
+
+<script>
+document.getElementById('imagery-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const formData = new FormData(this);
+  const resultDiv = document.getElementById('imagery-result');
+  const jsonPre = document.getElementById('imagery-json');
+  const summaryDiv = document.getElementById('imagery-summary');
+  resultDiv.style.display = 'block';
+  jsonPre.textContent = '{{=T("Processing... (may take 15-60 seconds)")}}';
+  summaryDiv.textContent = '';
+  try {
+    const resp = await fetch('{{=URL("ai_imagery","analyze")}}', {method: 'POST', body: formData});
+    const data = await resp.json();
+    if (data.error) {
+      jsonPre.textContent = '⚠️ ' + data.error;
+    } else {
+      summaryDiv.innerHTML = '<strong>{{=T("Summary")}}:</strong> ' + (data.summary || '{{=T("(no summary)")}}');
+      jsonPre.textContent = JSON.stringify(data.result || data, null, 2);
+    }
+  } catch (err) {
+    jsonPre.textContent = '⚠️ ' + err.message;
+  }
+});
+</script>

@@ -1,0 +1,139 @@
+{{extend 'layout.html'}}
+{{block section_class}}section-width-1{{end}}
+
+<h1>{{=T("AI Assistant")}}</h1>
+
+{{if not consent_given:}}
+<div class="alert alert-info" role="alert">
+  <h3>{{=T("Privacy Notice (PDPA)")}}</h3>
+  <p>{{=T("This AI assistant stores your questions and the answers given to improve service quality. We do not share this data with third parties. You can withdraw consent at any time.")}}</p>
+  <p>{{=T("ระบบผู้ช่วย AI นี้จะเก็บคำถามและคำตอบของคุณเพื่อปรับปรุงคุณภาพการให้บริการ ไม่แชร์ข้อมูลกับบุคคลที่สาม คุณสามารถถอนความยินยอมได้ตลอดเวลา")}}</p>
+  <button class="btn btn-primary" onclick="giveConsent()">{{=T("I agree (ยินยอม)")}}</button>
+  <a href="{{=URL('default','index')}}" class="btn btn-default">{{=T("Cancel")}}</a>
+</div>
+{{else:}}
+<div class="ai-chat-container" style="max-width: 720px; margin: 0 auto;">
+  <div id="chat-messages" style="height: 400px; overflow-y: scroll; border: 1px solid #ccc; padding: 12px; background: #fafafa; border-radius: 8px;">
+    <div class="ai-message ai-bot" style="margin-bottom: 12px;">
+      <strong>{{=T("Assistant")}}:</strong> {{=T("สวัสดีครับ มีอะไรให้ช่วยเกี่ยวกับการจัดการภัยพิบัติไหมครับ?")}}
+    </div>
+  </div>
+  <div style="margin-top: 12px; display: flex; gap: 8px;">
+    <input type="text" id="chat-input" placeholder="{{=T('พิมพ์คำถามของคุณ...')}}" style="flex: 1; padding: 8px;" />
+    <button class="btn btn-primary" onclick="sendQuestion()">{{=T("Send")}}</button>
+  </div>
+  <div style="margin-top: 8px; font-size: 12px; color: #666;">
+    {{=T("คำถามถูกเก็บเพื่อปรับปรุงระบบ (PDPA consent given)")}}
+    <a href="{{=URL('ai_chat','consent')}}" target="_blank">{{=T("Manage consent")}}</a>
+  </div>
+</div>
+{{pass}}
+
+<script>
+// All functions defined at top level so they're always available,
+// regardless of consent state.
+const chatEndpoint = "{{=URL('ai_chat','ask') }}";
+const rateEndpoint = "{{=URL('ai_chat','rate')}}";
+const consentGiveEndpoint = "{{=URL('ai_chat','consent_give')}}";
+
+function giveConsent() {
+  fetch(consentGiveEndpoint, {method: 'POST'})
+    .then(r => r.json())
+    .then(d => {
+      if (d.ok) {
+        // Reload the current page so the server re-renders with consent_given=True
+        window.location.href = d.redirect;
+      } else {
+        alert('{{=T("Failed to record consent")}}: ' + (d.error || 'unknown'));
+      }
+    })
+    .catch(err => alert('{{=T("Network error")}}: ' + err.message));
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+function addMessage(role, text, sources) {
+  const messagesEl = document.getElementById('chat-messages');
+  if (!messagesEl) return;
+  const div = document.createElement('div');
+  div.className = 'ai-message ai-' + (role === 'user' ? 'user' : 'bot');
+  div.style.marginBottom = '12px';
+  let html = '<strong>' + (role === 'user' ? '{{=T("You")}}' : '{{=T("Assistant")}}') + ':</strong> ' + escapeHtml(text);
+  if (sources && sources.length) {
+    html += '<div style="font-size: 11px; color: #888; margin-top: 4px;">{{=T("Sources")}}: ';
+    sources.forEach(s => {
+      html += '<span style="margin-right: 8px;">[' + escapeHtml(s.type) + '] ' + escapeHtml(s.title) + '</span>';
+    });
+    html += '</div>';
+  }
+  div.innerHTML = html;
+  messagesEl.appendChild(div);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+
+function sendQuestion() {
+  const inputEl = document.getElementById('chat-input');
+  if (!inputEl) return;
+  const question = inputEl.value.trim();
+  if (!question) return;
+
+  addMessage('user', question);
+  inputEl.value = '';
+  inputEl.disabled = true;
+
+  fetch(chatEndpoint, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+    body: 'question=' + encodeURIComponent(question)
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.error) {
+      addMessage('bot', '⚠️ ' + data.error);
+    } else {
+      addMessage('bot', data.answer, data.sources);
+      if (data.chat_log_id) {
+        showRating(data.chat_log_id);
+      }
+    }
+  })
+  .catch(e => addMessage('bot', '⚠️ ' + e.message))
+  .finally(() => { inputEl.disabled = false; inputEl.focus(); });
+}
+
+function showRating(chatLogId) {
+  const messagesEl = document.getElementById('chat-messages');
+  if (!messagesEl) return;
+  const div = document.createElement('div');
+  div.style.cssText = 'font-size: 11px; color: #888; margin-bottom: 12px;';
+  div.innerHTML = '{{=T("Was this helpful?")}} ' +
+    '<a href="#" onclick="rateAnswer(' + chatLogId + ', 1); return false;">👍</a> ' +
+    '<a href="#" onclick="rateAnswer(' + chatLogId + ', -1); return false;">👎</a>';
+  messagesEl.appendChild(div);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+
+function rateAnswer(id, rating) {
+  fetch(rateEndpoint, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+    body: 'id=' + id + '&rating=' + rating
+  }).then(r => r.json()).then(d => {
+    if (d.ok) alert('{{=T("Thank you for your feedback")}}');
+  });
+}
+
+// Auto-attach Enter key handler to chat input when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+  const inputEl = document.getElementById('chat-input');
+  if (inputEl) {
+    inputEl.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') sendQuestion();
+    });
+  }
+});
+</script>
